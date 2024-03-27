@@ -4,6 +4,8 @@ import org.lambda.utils.Range;
 import org.approvaltests.utils.VerifiableMarkdownTable;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 public class TableTest
 {
   @Test
@@ -25,6 +27,23 @@ public class TableTest
     Approvals.verify(table);
     // end-snippet
   }
+
+  @Test
+  void headersGreaterThan34Characters() {
+    String[] inputs = {"verify json", "verify all", "verify parameters", "verify as json"};
+    VerifiableMarkdownTable table = VerifiableMarkdownTable.withHeaders("column header greater than 34 characters");
+    Arrays.stream(inputs).forEach(table::addRow);
+    Approvals.verify(table);
+  }
+
+  @Test
+  void columnValuesGreaterThan34Characters() {
+    String[] inputs = {"verify json", "verify all", "column value greater than 34 characters", "verify as json"};
+    VerifiableMarkdownTable table = VerifiableMarkdownTable.withHeaders("column header");
+    Arrays.stream(inputs).forEach(table::addRow);
+    Approvals.verify(table);
+  }
+
   private String toKebabCase(String input)
   {
     String[] parts = input.split(" ");
